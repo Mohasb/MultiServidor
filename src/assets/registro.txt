@@ -1,0 +1,57 @@
+11111111A;Juan;Gomez;15/05/1990
+Compra de productos informáticos;500;10/01/2023;11111111A
+Servicios de consultoría;800,23;25/02/2023;11111111A
+22222222B;Ana;Martinez;20/12/1985
+Alquiler de equipo audiovisual;300,00;05/03/2023;22222222B
+33333333C;Miguel;López;03/08/1988;
+Compra de libros;75,56;22/06/2023;33333333C
+Cuota de membresía;200,34;30/07/2023;33333333C
+Reparación de computadora;150,00;18/04/2023;33333333C
+44444444D;Laura;Fernández;12/11/1995
+Suscripción a revista;30,23;14/09/2023;44444444D
+55555555E;Carlos;Sánchez;08/04/1982;44444444D
+Renovación de licencia de software;100,15;11/11/2023;44444444D
+55555555F;Elena;Pérez;21/09/1987
+Compra de ropa;120,45;03/02/2023;55555555F
+Pago de servicios de electricidad;50,00;18/04/2023;55555555F
+Servicio de limpieza;55,45;02/10/2023;55555555F
+66666666G;Javier;Ramírez;10/07/1992
+Suscripción a plataforma de música;15,45;25/05/2023;66666666G
+Reparación de bicicleta;80,00;12/09/2023;66666666G
+77777777H;Isabel;Díaz;05/03/1980
+Compra de artículos de jardinería;200,78;20/11/2023;77777777H
+88888888I;Alberto;González;14/06/1998
+Curso en línea;90,00;28/07/2023;88888888I
+Servicio de catering;350,34;15/01/2024;88888888I
+Compra de alimentos;45,00;10/09/2023;88888888I
+99999999J;María;López;02/12/1985
+Pago de membresía de gimnasio;60,45;05/04/2023;99999999J
+98765432K;Carlos;Gutiérrez;12/08/1993
+Compra de electrodomésticos;800,36;05/03/2023;98765432K
+Servicio de reparación de automóvil;300,38;18/04/2023;98765432K
+56789012L;Sara;Rodríguez;25/11/1986
+Suscripción a streaming de películas;50,00;02/06/2023;56789012L
+Compra de muebles para el hogar;400,00;15/07/2023;56789012L
+34567890M;Andrés;López;19/04/1991
+Pago de servicios de internet;60,45;10/09/2023;34567890M
+Compra de herramientas de bricolaje;150,47;22/10/2023;34567890M
+87654321N;Lucía;García;08/12/1980
+Suscripción a revista de tecnología;25,28;14/12/2023;87654321N
+Compra de juguetes educativos;70,00;28/01/2024;87654321N
+13579246O;Jorge;Hernández;02/05/1995
+Servicio de limpieza del hogar;120,05;05/03/2023;13579246O
+Renovación de suscripción a gimnasio;200,07;18/04/2023;13579246O
+24681357P;Carmen;Pérez;17/09/1989
+Compra de ropa deportiva;50,36;02/06/2023;24681357P
+Suscripción a plataforma educativa;90,06;15/07/2023;24681357P
+11223344Q;Pedro;Sánchez;01/04/1985
+Compra de boletos para concierto;100,45;10/09/2023;11223344Q
+Pago de clases de baile;30,37;22/10/2023;11223344Q
+Pago clases repaso;50,37;22/11/2023;11223344Q
+Servicios limpieza;150,37;20/09/2023;11223344Q
+44556677R;Marina;Fernández;28/11/1997
+Suscripción a servicio de entrega de comidas;80,49;14/12/2023;44556677R
+Compra de artículos de decoración;150,00;28/01/2024;44556677R
+77889900S;Roberto;Martínez;03/06/1990
+Servicio de pintura para el hogar;200,37;05/03/2023;77889900S
+Compra de herramientas de jardinería;40,50;18/04/2023;77889900S
