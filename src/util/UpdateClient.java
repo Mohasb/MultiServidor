@@ -2,6 +2,7 @@ package util;
 
 import classes.Bill;
 import classes.Client;
+import classes.data.DbConnection;
 import classes.data.DbOperations;
 
 import java.sql.ResultSet;
@@ -16,18 +17,24 @@ public class UpdateClient {
     public static void updateClientArrayFromSqLite() {
         Client.clientsList.clear();
         // Get Resulset of client and send to client to save to arraylist<Clients>
-        ResultSet clients = DbOperations.getDataFromSqLite("clientes");
-        Client.addClientsFromSqLiteToList(clients);
+        ResultSet clients = DbOperations.getDataFromDb(DbConnection.sqLiteConnection(),"clientes");
+        Client.addClientsToList(clients);
     }
 
      public static void updateBillsArrayFromSqLite() {
         Bill.billsList.clear();
         // Get Resulset of Biils and send to Bill to save to arraylist<Bills>
-        ResultSet bills = DbOperations.getDataFromSqLite("facturas");
+        ResultSet bills = DbOperations.getDataFromDb(DbConnection.sqLiteConnection(),"facturas");
         Bill.addBillsFromSqLiteToList(bills);
     }
 
 
+    public static void updateFromMariaDb() {
+        Client.clientsList.clear();
+        // Get Resulset of client and send to client to save to arraylist<Clients>
+        ResultSet clients = DbOperations.getDataFromDb(DbConnection.mySqlConnection(),"clientes");
+        Client.addClientsToList(clients);
+    }
 
 
     public static void mapClientsAndBills() {

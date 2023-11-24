@@ -2,11 +2,8 @@ package classes;
 
 import org.w3c.dom.Element;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -45,16 +42,7 @@ public class Client {
         String name = datos[1];
         String lastName = datos[2];
         String fechaNac = datos[3];
-
         LocalDate fecha = LocalDate.parse(fechaNac, formato);
-
-        /*Date date = null;
-        try {
-            date = dateFormatter.parse(datos[3]);
-        } catch (ParseException e) {
-            System.out.println("Se ha insertado un cliente con dni: " + dni + " con la fecha mal: " + fechaNac);
-        }*/
-
         Client c = new Client(dni, name, lastName, fecha);
         Client.clientsList.add(c);
     }
@@ -67,12 +55,11 @@ public class Client {
         String fechaNac = clientElement.getElementsByTagName("fechaNacimiento").item(0).getTextContent();
         LocalDate fecha = LocalDate.parse(fechaNac, formato);
 
-
         Client c = new Client(dni, nombre, apellido, fecha);
         Client.clientsList.add(c);
     }
 
-    public static void addClientsFromSqLiteToList(ResultSet clients) {
+    public static void addClientsToList(ResultSet clients) {
         try {
             while (clients.next()) {
                 LocalDate fecha = LocalDate.parse(clients.getString("fechaNacimiento"));

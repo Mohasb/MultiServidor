@@ -24,7 +24,7 @@ public class DbConnection {
             return conn;
 
         } catch (SQLException e) {
-            PrintWithColor.print("Usuario o password incorrectos !!!", "red");
+            PrintWithColor.print("Usuario o password incorrectos !!!\n", "red");
             return null;
         }
     }

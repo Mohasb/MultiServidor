@@ -5,21 +5,9 @@ import classes.Client;
 import classes.data.DbConnection;
 import classes.data.DbOperations;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import javax.print.Doc;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class FileHandler {
@@ -49,7 +37,7 @@ public class FileHandler {
         // Create tables if not exists in db
         DbOperations.createTablesIfNotExist(DbConnection.sqLiteConnection(), "gestionSqLiteTables");
         // Save client to sqlite database
-        int clientesInsertados = DbOperations.saveClientsToDb(clientes, DbConnection.sqLiteConnection());
+        int clientesInsertados = DbOperations.saveClientsToDb(clientes, DbConnection.sqLiteConnection(), "sqlite");
         // Save bills to sqlite database
         int facturasInsertadas = DbOperations.saveBillsToDb(bills, DbConnection.sqLiteConnection());
         PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n\n", "green");
@@ -91,12 +79,11 @@ public class FileHandler {
             File selectedFile = chooser.getSelectedFile();
 
 
-                String extensionSelected = null;
+                String extensionSelected;
                 String fileName = selectedFile.getName();
                 int lastDotIndex = fileName.lastIndexOf('.');
                 if (lastDotIndex > 0 && lastDotIndex < fileName.length() - 1) {
                     extensionSelected = fileName.substring(lastDotIndex + 1).toLowerCase();
-                    System.out.println(extensionSelected);
                     if (extension.equals(extensionSelected)) {
                         return chooser.getSelectedFile();
                     }else {
@@ -126,7 +113,7 @@ public class FileHandler {
         chooser.setCurrentDirectory(new File(desktopPath));
 
 
-        String fileName = "";
+        String fileName;
         Scanner sc = new Scanner(System.in);
 
         do {

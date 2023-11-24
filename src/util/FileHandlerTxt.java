@@ -12,7 +12,6 @@ public class FileHandlerTxt {
     // This function reads a txt and save to local arraylist of clients and bills in his classes
     static void readTXT(File archivo) {
         if (archivo.exists()) {
-
             try {
                 FileReader fr = new FileReader(archivo.getAbsoluteFile());
                 BufferedReader br = new BufferedReader(fr);

@@ -18,6 +18,8 @@ public class FileHandlerXml {
 
     // This function reads a xml and save to local arraylist of clients and bills in his classes
     static void readXML(File archivo) {
+        Client.clientsList.clear();
+        Bill.billsList.clear();
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
 

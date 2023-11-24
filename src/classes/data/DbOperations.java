@@ -15,36 +15,41 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class DbOperations {
 
-    public static int saveClientsToDb(ArrayList<Client> clientesList, Connection connection) {
+    public static int saveClientsToDb(ArrayList<Client> clientesList, Connection connection, String bdType) {
         int clientesInsertados = 0;
         StringBuilder values = new StringBuilder();
         //Copia del arraylist local para iterar
-        ArrayList<Client> clientesFromFileCopy = new ArrayList<>(Client.clientsList);
-        //Borro el arraylist localy lo relleno con lo que haya en la bbdd
-        UpdateClient.updateClientArrayFromSqLite();
+        ArrayList<Client> clientesFromFileCopy = new ArrayList<>(clientesList);
+        //Borro el arraylist local lo relleno con lo que haya en la bbdd
+
+        if (bdType.equals("sqlite")) {
+            UpdateClient.updateClientArrayFromSqLite();
+        }else {
+            UpdateClient.updateFromMariaDb();
+        }
+
         //Creación del string con la query
         for (Client client : clientesFromFileCopy) {
             String dni = client.getDni();
             String nombre = client.getName();
             String apellido = client.getLastname();
             LocalDate fechaNac = client.getFechaNac();
-
             //Aqui se comprueba si existe el cliente en la basse de datos
             if (!Client.clientsList.contains(client)) {
                 String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + fechaNac + "'),";
                 values.append(clientValues);
                 clientesInsertados++;
             } else {
-                PrintWithColor.print("El cliente con dni:" + dni + " ya se encuentra en nuestra base de datos", "red");
-                System.out.println("");
+                PrintWithColor.print("El cliente con dni:" + dni + " ya se encuentra en nuestra base de datos\n", "red");
             }
 
         }
 
-        // Se insertan solo los clientes qye no existen
+        // Se insertan solo los clientes que no existen
         if (values.length() > 0) {
             String finalValues = values.substring(0, values.length() - 1);
             Statement st;
@@ -88,7 +93,7 @@ public class DbOperations {
                 values.append(billValues);
                 facturasInsertadas++;
             } else {
-                PrintWithColor.print("Las facturas del cliente con dni: "+ dni_cliente +" no corresponden a ningún cliente.", "red");
+                PrintWithColor.print("Las facturas del cliente con dni: "+ dni_cliente +" no corresponden a ningún cliente.\n", "red");
 
             }
 
@@ -110,45 +115,51 @@ public class DbOperations {
     }
 
     public static void createTablesIfNotExist(Connection conn, String sqlFileName) {
-        try (conn) {
-            Statement stmt = conn.createStatement();
-            // Leer el archivo SQL
-            StringBuilder sql = new StringBuilder();
-            try {
-                BufferedReader br = new BufferedReader(new FileReader("src/assets/database/" + sqlFileName + ".sql"));
-                String linea;
-                while ((linea = br.readLine()) != null) {
-                    // Agregar cada línea al StringBuilder
-                    sql.append(linea).append("\n");
+
+        if (conn != null) {
+            try (conn) {
+                Statement stmt = conn.createStatement();
+                // Leer el archivo SQL
+                StringBuilder sql = new StringBuilder();
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader("src/assets/database/" + sqlFileName + ".sql"));
+                    String linea;
+                    while ((linea = br.readLine()) != null) {
+                        // Agregar cada línea al StringBuilder
+                        sql.append(linea).append("\n");
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error al leer el archivo SQL: " + e.getMessage());
+                    throw new RuntimeException(e);
                 }
-            } catch (IOException e) {
-                System.err.println("Error al leer el archivo SQL: " + e.getMessage());
-                throw new RuntimeException(e);
+
+                //Este codigo ejecuta el sql en formato para sqlite o en líneas para MariaDb
+                if (sqlFileName.equals("gestionSqLiteTables")) {
+                    stmt.execute(String.valueOf(sql));
+                }else {
+                    String[] lines =  String.valueOf(sql).trim().split(";");
+                    for (String line : lines) {
+                        if (line.length() > 0) {
+                            stmt.execute(line);
+                        }
+                    }
+                }
+
+                // Cerrar la conexión
+                conn.close();
+                stmt.close();
+            } catch (SQLException e) {
+                System.err.println("Error al ejecutar las sentencias SQL desde el archivo: " + e.getMessage());
             }
-
-
-            if (sqlFileName.equals("gestion")) {
-                stmt.execute(String.valueOf(sql));
-            }else {
-
-            }
-
-
-            // Cerrar la conexión
-            conn.close();
-            stmt.close();
-        } catch (SQLException e) {
-            System.err.println("Error al ejecutar las sentencias SQL desde el archivo: " + e.getMessage());
         }
     }
 
-    public static ResultSet getDataFromSqLite(String tableName) {
+    public static ResultSet getDataFromDb(Connection conn, String tableName) {
 
         Statement st;
-        Connection connection = DbConnection.sqLiteConnection();
         ResultSet rs;
         try {
-            st = connection.createStatement();
+            st = conn.createStatement();
             String query = "SELECT * from " + tableName;
             rs = st.executeQuery(query);
 
@@ -159,12 +170,21 @@ public class DbOperations {
         return rs;
     }
 
-    public static void insertDataToMariaDb(String user, String password, ArrayList<Client> clientes, ArrayList<Bill> facturas) {
-        //Tengo pasar una instancia a cada uno porque cuando cierro conexion luego para abrirla tendria que crear mas objetos y lo veo inecesareo
-        createTablesIfNotExist(DbConnection.mySqlConnection(user, password), "gestionMariaDbTablas");
+    public static void insertDataToMariaDb() {
 
-        //TODO
-        //saveClientsToDb(clientes, DbConnection.mySqlConnection(user, password));
-        //saveBillsToDb(facturas, DbConnection.mySqlConnection(user, password));
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduce el usuario de MariaDb");
+        String user = sc.nextLine();
+        System.out.println("Introduce el password de MariaDb");
+        String password = sc.nextLine();
+
+
+
+        createTablesIfNotExist(DbConnection.mySqlConnection(user, password), "gestionMariaDbTablas");
+        UpdateClient.updateClientArrayFromSqLite();
+        UpdateClient.updateBillsArrayFromSqLite();
+        saveClientsToDb(Client.clientsList, DbConnection.mySqlConnection(user, password), "mariadb");
+        saveBillsToDb(Bill.billsList, DbConnection.mySqlConnection(user, password));
     }
 }

@@ -1,9 +1,6 @@
-import classes.Bill;
-import classes.Client;
 import classes.data.DbOperations;
 import util.FileHandler;
 import util.PrintWithColor;
-import util.UpdateClient;
 import java.util.Scanner;
 
 public class Main {
@@ -11,7 +8,6 @@ public class Main {
         PrintWithColor.print("Bienvenido al multiservidor de datos\n", "blue");
         menu();
     }
-
 
     //First menu
     public static void menu() {
@@ -32,7 +28,7 @@ public class Main {
         switch (option) {
             case "1" -> subMenu("Importar");
             case "2" -> subMenu("Exportar");
-            case "3" -> backUpSqliteToMariaDb();
+            case "3" -> DbOperations.insertDataToMariaDb();
             case "4" -> System.out.println("exportar a mongodb");
             case "5" -> {
                 System.out.println("Saliendo...");
@@ -44,21 +40,6 @@ public class Main {
         menu();
     }
 
-    private static void backUpSqliteToMariaDb() {
-
-
-        UpdateClient.updateClientArrayFromSqLite();
-        UpdateClient.updateBillsArrayFromSqLite();
-        UpdateClient.mapClientsAndBills();
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Introduce el usuario de MariaDb");
-        String user = scanner.nextLine();
-        System.out.println("Introduce el password de MariaDb");
-        String password = scanner.nextLine();
-
-        DbOperations.insertDataToMariaDb(user, password, Client.clientsList, Bill.billsList);
-    }
 
     //Submenu of option 1 & 2
     public static void subMenu(String operation) {
