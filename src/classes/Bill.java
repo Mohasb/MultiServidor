@@ -3,10 +3,13 @@ package classes;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class Bill {
 
@@ -29,7 +32,7 @@ public class Bill {
         this.dniClient = dniClient;
     }
 
-    public static void AddBillsTxtToList(String[] datos) {
+    public static void addBillsTxtToList(String[] datos) {
         String concepto = datos[0];
         Double price = Double.parseDouble(datos[1].replace(',', '.'));
         String fechaFactura = datos[2];
@@ -46,7 +49,7 @@ public class Bill {
         Bill b = new Bill(concepto, price, date, dniClient);
         Bill.billsList.add(b);
     }
-    public static void AddBillsXmlToList(NodeList facturas) {
+    public static void addBillsXmlToList(NodeList facturas) {
 
         for (int i = 0; i < facturas.getLength(); i++) {
             Element facturaElement = (Element) facturas.item(i);
@@ -74,6 +77,26 @@ public class Bill {
 
         }
 
+    }
+
+    public static void addBillsFromSqLiteToList(ResultSet bills) {
+        try {
+            while (bills.next()) {
+                SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+                Date date = null;
+                try {
+                    date = format.parse(bills.getString("fechaFactura"));
+                } catch (ParseException e) {
+                    System.out.println("Fecha obtenida de sqlite no válida");
+                    e.printStackTrace();
+                }
+
+                Bill bi = new Bill(bills.getString("concepto"), bills.getDouble("importe"),  date, bills.getString("dni_cliente"));
+                Bill.billsList.add(bi);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

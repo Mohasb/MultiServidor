@@ -1,11 +1,14 @@
+import classes.Bill;
+import classes.Client;
+import classes.data.DbOperations;
 import util.FileHandler;
 import util.PrintWithColor;
-
+import util.UpdateClient;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        PrintWithColor.print("Bienvenido al multiservidor de datos", "blue");
+        PrintWithColor.print("Bienvenido al multiservidor de datos\n", "blue");
         menu();
     }
 
@@ -18,9 +21,9 @@ public class Main {
 
         System.out.print("""
                 ¿Que operación quiere realizar?
-                1. Importar datos
-                2. Exportar datos
-                3. Realizar backup de la base de datos
+                1. Importar datos(archivo a sqlite)
+                2. Exportar datos(sqlite a archivo)
+                3. Realizar backup de la base de datos(sqlite a MariaDb)
                 4. Exportación hacia MongoDB(JSON)
                 5. Salir
                 """);
@@ -29,7 +32,7 @@ public class Main {
         switch (option) {
             case "1" -> subMenu("Importar");
             case "2" -> subMenu("Exportar");
-            case "3" -> System.out.println("backup bbdd");
+            case "3" -> backUpSqliteToMariaDb();
             case "4" -> System.out.println("exportar a mongodb");
             case "5" -> {
                 System.out.println("Saliendo...");
@@ -37,7 +40,24 @@ public class Main {
             }
             default -> System.out.println("No existe la opción: " + option);
         }
+        // Al acabar una operación sale el menu de nuevo
+        menu();
+    }
 
+    private static void backUpSqliteToMariaDb() {
+
+
+        UpdateClient.updateClientArrayFromSqLite();
+        UpdateClient.updateBillsArrayFromSqLite();
+        UpdateClient.mapClientsAndBills();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Introduce el usuario de MariaDb");
+        String user = scanner.nextLine();
+        System.out.println("Introduce el password de MariaDb");
+        String password = scanner.nextLine();
+
+        DbOperations.insertDataToMariaDb(user, password, Client.clientsList, Bill.billsList);
     }
 
     //Submenu of option 1 & 2
@@ -48,9 +68,9 @@ public class Main {
             System.out.print("""
                     ¿Que operación quiere realizar?
                     1.\040""" + operation + """
-                     desde archivo de texto
+                     archivo de texto
                     2.\040""" + operation + """
-                     desde archivo XML
+                     archivo XML
                     3. Volver
                     """);
             option = scanner.next();
@@ -65,8 +85,8 @@ public class Main {
                 }
             }else {
                 switch (option) {
-                    case "1" -> FileHandler.exportFile("txt");
-                    case "2" -> FileHandler.exportFile("xml");
+                    case "1" -> FileHandler.exportSqliteToFile("txt");
+                    case "2" -> FileHandler.exportSqliteToFile("xml");
                     case "3" -> menu();
                     default -> System.out.println("No existe la opción: " + option);
                 }
