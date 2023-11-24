@@ -137,9 +137,8 @@ public class FileHandler {
 
 
             switch (extension) {
-                case "txt" -> FileHandlerTxt.saveTxt(outputFilePath, (String) content, fileName, extension);
+                case "txt", "json" -> FileHandlerTxt.saveTxtOrJson(outputFilePath, (String) content, fileName, extension);
                 case "xml" -> FileHandlerXml.saveXml(outputFilePath, (Document) content);
-                case "json" -> FileHandlerTxt.saveJson(outputFilePath, (String) content, fileName, extension);
             }
         }
 

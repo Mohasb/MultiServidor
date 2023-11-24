@@ -28,7 +28,7 @@ public class PrintWithColor {
 
 		}
 
-		System.out.print(color + bold + message + reset);
+		System.out.println(color + bold + message + reset);
 	}
 
 }
