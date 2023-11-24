@@ -12,9 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 public class DbOperations {
@@ -37,7 +35,7 @@ public class DbOperations {
             String dni = client.getDni();
             String nombre = client.getName();
             String apellido = client.getLastname();
-            LocalDate fechaNac = client.getFechaNac();
+            String fechaNac = client.getFechaNac();
             //Aqui se comprueba si existe el cliente en la basse de datos
             if (!Client.clientsList.contains(client)) {
                 String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + fechaNac + "'),";
@@ -74,7 +72,7 @@ public class DbOperations {
         for (Bill bill : billsList) {
             String concepto = bill.getConcept();
             Double importe = bill.getPrice();
-            Date fechaFactura = bill.getDate();
+            String fechaFactura = bill.getDate();
             String dni_cliente = bill.getDniClient();
 
 
@@ -179,12 +177,28 @@ public class DbOperations {
         System.out.println("Introduce el password de MariaDb");
         String password = sc.nextLine();
 
+        try (Connection conn = DbConnection.mySqlConnection(user, password)) {
+            if (conn != null) {
+                System.out.println("Login correcto !!!");
+
+                createTablesIfNotExist(conn, "gestionMariaDbTablas");
+                UpdateClient.updateClientArrayFromSqLite();
+                UpdateClient.updateBillsArrayFromSqLite();
+
+                if (Client.clientsList.size() > 0 || Bill.billsList.size() > 0) {
+                    int clientesInsertados = saveClientsToDb(Client.clientsList, DbConnection.mySqlConnection(user, password), "mariadb");
+                    int facturasInsertadas = saveBillsToDb(Bill.billsList, DbConnection.mySqlConnection(user, password));
+                    PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n\n", "green");
+                }else {
+                    System.out.println("No hay clientes o facturas en la base de datos de sqlite");
+                }
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
-        createTablesIfNotExist(DbConnection.mySqlConnection(user, password), "gestionMariaDbTablas");
-        UpdateClient.updateClientArrayFromSqLite();
-        UpdateClient.updateBillsArrayFromSqLite();
-        saveClientsToDb(Client.clientsList, DbConnection.mySqlConnection(user, password), "mariadb");
-        saveBillsToDb(Bill.billsList, DbConnection.mySqlConnection(user, password));
     }
 }

@@ -113,7 +113,6 @@ public class FileHandlerXml {
     }
 
     static void saveXml(File outputFilePath, Document docXml) {
-        //File fichero = new File(fileName + "." + extension);
         Transformer transformer;
         try {
             transformer = TransformerFactory.newInstance().newTransformer();

@@ -79,4 +79,27 @@ public class FileHandlerTxt {
             throw new RuntimeException(e);
         }
     }
+
+
+    public static void saveJson(File outputFilePath, String content, String fileName, String extension) {
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
+            writer.write(content);
+
+            System.out.println("Nombre del archivo de la exportación: " + fileName);
+            System.out.println("Se ha creado el archivo facturacion[." + extension + "]");
+            System.out.println("Se han exportado un total de " + Client.clientsList.size() + " clientes y " + Bill.billsList.size() + " facturas");
+
+            double totalFacturas = 0d;
+            DecimalFormat df = new DecimalFormat("0.00");
+            for (Bill bill : Bill.billsList) {
+                totalFacturas += bill.getPrice();
+            }
+            System.out.println("El coste total de las facturas asciende a " + df.format(totalFacturas));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }

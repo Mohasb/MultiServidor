@@ -46,8 +46,11 @@ public class FileHandler {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static void exportSqliteToFile(String extension) {
+        //Traigo los datos de sqlite
         UpdateClient.updateClientArrayFromSqLite();
+        UpdateClient.updateBillsArrayFromSqLite();
         UpdateClient.mapClientsAndBills();
+
         generateFileFromDataClients(extension);
 
 
@@ -123,7 +126,7 @@ public class FileHandler {
 
 
         chooser.setSelectedFile(new File(fileName));
-        System.out.println("Selecciona una localización para guardar el archivo  ." + extension + " con el  diálogo");
+        System.out.println("Selecciona una localización para guardar el archivo ." + extension + " con el  diálogo");
 
         int seleccion = chooser.showSaveDialog(null);
 
@@ -136,6 +139,7 @@ public class FileHandler {
             switch (extension) {
                 case "txt" -> FileHandlerTxt.saveTxt(outputFilePath, (String) content, fileName, extension);
                 case "xml" -> FileHandlerXml.saveXml(outputFilePath, (Document) content);
+                case "json" -> FileHandlerTxt.saveJson(outputFilePath, (String) content, fileName, extension);
             }
         }
 

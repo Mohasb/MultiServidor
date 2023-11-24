@@ -1,6 +1,12 @@
+import classes.Client;
 import classes.data.DbOperations;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import util.FileHandler;
 import util.PrintWithColor;
+import util.UpdateClient;
+
+
 import java.util.Scanner;
 
 public class Main {
@@ -29,7 +35,7 @@ public class Main {
             case "1" -> subMenu("Importar");
             case "2" -> subMenu("Exportar");
             case "3" -> DbOperations.insertDataToMariaDb();
-            case "4" -> System.out.println("exportar a mongodb");
+            case "4" -> exportToMongoDb();
             case "5" -> {
                 System.out.println("Saliendo...");
                 System.exit(0);
@@ -74,5 +80,20 @@ public class Main {
             }
             // Al acabar una operación sale el menu de nuevo
             menu();
+    }
+
+    public static  void exportToMongoDb() {
+        UpdateClient.updateClientArrayFromSqLite();
+        UpdateClient.updateBillsArrayFromSqLite();
+        UpdateClient.mapClientsAndBills();
+
+        if (Client.clientsList.size() > 0) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Gson gson = gsonBuilder.setPrettyPrinting().create();
+            String JSONObject = gson.toJson(Client.clientsList);
+            FileHandler.exportFile(JSONObject, "json");
+        }else {
+            System.out.println("No hay clientes en la base de datos de sqlite");
+        }
     }
 }

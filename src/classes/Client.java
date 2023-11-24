@@ -15,14 +15,14 @@ public class Client {
     private String dni;
     private String name;
     private String lastname;
-    private LocalDate fechaNac;
+    private String fechaNac;
     private List<Bill> bills;
 
 
     public Client() {
     }
 
-    public Client(String dni, String name, String lastname, LocalDate fechaNac) {
+    public Client(String dni, String name, String lastname, String fechaNac) {
         this.dni = dni;
         this.name = name;
         this.lastname = lastname;
@@ -42,8 +42,13 @@ public class Client {
         String name = datos[1];
         String lastName = datos[2];
         String fechaNac = datos[3];
-        LocalDate fecha = LocalDate.parse(fechaNac, formato);
-        Client c = new Client(dni, name, lastName, fecha);
+
+
+
+
+
+
+        Client c = new Client(dni, name, lastName, fechaNac);
         Client.clientsList.add(c);
     }
 
@@ -53,17 +58,15 @@ public class Client {
         String nombre = clientElement.getElementsByTagName("nombre").item(0).getTextContent();
         String apellido = clientElement.getElementsByTagName("apellido").item(0).getTextContent();
         String fechaNac = clientElement.getElementsByTagName("fechaNacimiento").item(0).getTextContent();
-        LocalDate fecha = LocalDate.parse(fechaNac, formato);
 
-        Client c = new Client(dni, nombre, apellido, fecha);
+        Client c = new Client(dni, nombre, apellido, fechaNac);
         Client.clientsList.add(c);
     }
 
     public static void addClientsToList(ResultSet clients) {
         try {
             while (clients.next()) {
-                LocalDate fecha = LocalDate.parse(clients.getString("fechaNacimiento"));
-                Client cli = new Client(clients.getString("dni"), clients.getString("nombre"), clients.getString("apellido"), fecha);
+                Client cli = new Client(clients.getString("dni"), clients.getString("nombre"), clients.getString("apellido"),  clients.getString("fechaNacimiento"));
                 Client.clientsList.add(cli);
             }
         } catch (SQLException e) {
@@ -96,11 +99,11 @@ public class Client {
         this.lastname = apellido;
     }
 
-    public LocalDate getFechaNac() {
+    public String getFechaNac() {
         return fechaNac;
     }
 
-    public void setFechaNac(LocalDate fechaNac) {
+    public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
 

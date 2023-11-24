@@ -20,7 +20,6 @@ public class DbConnection {
 
         try {
             conn = DriverManager.getConnection(url + bd, user, password);
-            System.out.println("Login correcto !!!");
             return conn;
 
         } catch (SQLException e) {
