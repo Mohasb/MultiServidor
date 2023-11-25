@@ -40,7 +40,9 @@ public class FileHandlerXml {
                     // Añade las facturas del cliente al arraylist de facturas(Bill.billsList)
                     NodeList facturas = clientElement.getElementsByTagName("factura");
 
-                    Bill.addBillsXmlToList(facturas);
+                    String dni = clientElement.getElementsByTagName("dni").item(0).getTextContent();
+
+                    Bill.addBillsXmlToList(facturas, dni);
                 }
             }
 

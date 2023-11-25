@@ -44,7 +44,7 @@ public class Bill {
         Bill b = new Bill(concepto, price, fechaFactura, dniClient);
         Bill.billsList.add(b);
     }
-    public static void addBillsXmlToList(NodeList facturas) {
+    public static void addBillsXmlToList(NodeList facturas, String dniFactura) {
 
         for (int i = 0; i < facturas.getLength(); i++) {
             Element facturaElement = (Element) facturas.item(i);
@@ -60,7 +60,7 @@ public class Bill {
             } catch (NumberFormatException e) {
                 System.out.println("Se ha insertado una factura con el precio mal: " + importeString);
             }
-            Bill b = new Bill(concepto, importe, fechaFactura, null);
+            Bill b = new Bill(concepto, importe, fechaFactura, dniFactura);
             Bill.billsList.add(b);
 
         }
