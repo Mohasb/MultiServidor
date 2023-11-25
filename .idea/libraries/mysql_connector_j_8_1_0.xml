@@ -4,6 +4,10 @@
       <root url="jar://$PROJECT_DIR$/src/assets/connectors/mysql-connector-j-8.1.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/assets/connectors/sqlite-jdbc-3.36.0.3.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/assets/gson-2.10.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/assets/connectors/mongodb/bson-4.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/assets/connectors/mongodb/bson-record-codec-4.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/assets/connectors/mongodb/mongodb-driver-core-4.11.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/assets/connectors/mongodb/mongodb-driver-sync-4.11.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

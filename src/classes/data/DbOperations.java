@@ -12,8 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,11 +37,9 @@ public class DbOperations {
             String apellido = client.getLastname();
             String fechaNac = client.getFechaNac();
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate localDate = LocalDate.parse(fechaNac, formatter);
             // Aquí se comprueba si existe el cliente en la base de datos
             if (!Client.clientsList.contains(client)) {
-                String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + localDate + "'),";
+                String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + fechaNac + "'),";
                 values.append(clientValues);
                 clientesInsertados++;
             } else {

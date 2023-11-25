@@ -38,7 +38,6 @@ public class UpdateClient {
         //Map que contendrá la lista de clientes con sus respectivas facturas
         Map<String, List<Bill>> clientBillsMap = new HashMap<>();
 
-        // Iterate through bills and associate them with clients
         for (Bill bill : Bill.billsList) {
             String dni = bill.getDniClient();
             List<Bill> clientBills = clientBillsMap.getOrDefault(dni, new ArrayList<>());
