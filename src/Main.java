@@ -23,10 +23,10 @@ public class Main {
 
         System.out.print("""
                 ¿Que operación quiere realizar?
-                1. Importar datos(archivo a sqlite)
-                2. Exportar datos(sqlite a archivo)
+                1. Importar datos(archivo.[txt|xml] a sqlite)
+                2. Exportar datos(sqlite a archivo.[txt|xml])
                 3. Realizar backup de la base de datos(sqlite a MariaDb)
-                4. Exportación hacia MongoDB(JSON)
+                4. Exportación hacia MongoDB(Sqlite a JSON)
                 5. Salir
                 """);
         option = scanner.nextLine();

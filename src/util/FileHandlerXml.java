@@ -39,8 +39,8 @@ public class FileHandlerXml {
                     Client.addClientsXmlToList(clientElement);
                     // Añade las facturas del cliente al arraylist de facturas(Bill.billsList)
                     NodeList facturas = clientElement.getElementsByTagName("factura");
-                    Bill.addBillsXmlToList(facturas);
 
+                    Bill.addBillsXmlToList(facturas);
                 }
             }
 
@@ -95,7 +95,10 @@ public class FileHandlerXml {
                 importe.setTextContent(fa.getPrice().toString());
 
                 Element fechaFactura = document.createElement("fechaFactura");
-                fechaFactura.setTextContent(fa.getDate().toString());
+                fechaFactura.setTextContent(fa.getDate());
+
+                Element dni_cliente = document.createElement("dniCliente");
+                dni_cliente.setTextContent(cliente.getDni());
 
                 factura.appendChild(concepto);
                 factura.appendChild(importe);

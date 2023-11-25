@@ -188,7 +188,7 @@ public class DbOperations {
                 if (Client.clientsList.size() > 0 || Bill.billsList.size() > 0) {
                     int clientesInsertados = saveClientsToDb(Client.clientsList, DbConnection.mySqlConnection(user, password), "mariadb");
                     int facturasInsertadas = saveBillsToDb(Bill.billsList, DbConnection.mySqlConnection(user, password));
-                    PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n\n", "green");
+                    PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n", "green");
                 }else {
                     System.out.println("No hay clientes o facturas en la base de datos de sqlite");
                 }
