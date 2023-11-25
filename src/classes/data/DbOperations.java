@@ -2,8 +2,8 @@ package classes.data;
 
 import classes.Bill;
 import classes.Client;
-import util.PrintWithColor;
-import util.UpdateClient;
+import classes.util.PrintWithColor;
+import classes.util.UpdateClient;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -36,13 +38,16 @@ public class DbOperations {
             String nombre = client.getName();
             String apellido = client.getLastname();
             String fechaNac = client.getFechaNac();
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate localDate = LocalDate.parse(fechaNac, formatter);
             // Aquí se comprueba si existe el cliente en la base de datos
             if (!Client.clientsList.contains(client)) {
-                String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + fechaNac + "'),";
+                String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + localDate + "'),";
                 values.append(clientValues);
                 clientesInsertados++;
             } else {
-                PrintWithColor.print("El cliente con dni:" + dni + " ya se encuentra en nuestra base de datos\n", "red");
+                PrintWithColor.printError("El cliente con dni:" + dni + " ya se encuentra en nuestra base de datos");
             }
 
         }
@@ -91,7 +96,7 @@ public class DbOperations {
                 values.append(billValues);
                 facturasInsertadas++;
             } else {
-                PrintWithColor.print("Las facturas del cliente con dni: "+ dni_cliente +" no corresponden a ningún cliente.\n", "red");
+                PrintWithColor.printError("Las facturas del cliente con dni: "+ dni_cliente +" no corresponden a ningún cliente.\n");
 
             }
 
@@ -133,12 +138,12 @@ public class DbOperations {
 
                 //Este código ejecuta el sql en formato para sqlite o en líneas para MariaDb
                 if (sqlFileName.equals("gestionSqLiteTables")) {
-                    stmt.execute(String.valueOf(sql));
+                    stmt.executeUpdate(sql.toString());
                 }else {
                     String[] lines =  String.valueOf(sql).trim().split(";");
                     for (String line : lines) {
                         if (line.length() > 0) {
-                            stmt.execute(line);
+                            stmt.executeUpdate(line);
                         }
                     }
                 }
@@ -179,7 +184,7 @@ public class DbOperations {
 
         try (Connection conn = DbConnection.mySqlConnection(user, password)) {
             if (conn != null) {
-                System.out.println("Login correcto !!!");
+                PrintWithColor.printSucces("Login correcto !!!");
 
                 createTablesIfNotExist(conn, "gestionMariaDbTablas");
                 UpdateClient.updateClientArrayFromSqLite();
@@ -188,9 +193,9 @@ public class DbOperations {
                 if (Client.clientsList.size() > 0 || Bill.billsList.size() > 0) {
                     int clientesInsertados = saveClientsToDb(Client.clientsList, DbConnection.mySqlConnection(user, password), "mariadb");
                     int facturasInsertadas = saveBillsToDb(Bill.billsList, DbConnection.mySqlConnection(user, password));
-                    PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n", "green");
+                    PrintWithColor.printSucces("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n");
                 }else {
-                    System.out.println("No hay clientes o facturas en la base de datos de sqlite");
+                    PrintWithColor.printError("No hay clientes o facturas en la base de datos de sqlite");
                 }
 
             }

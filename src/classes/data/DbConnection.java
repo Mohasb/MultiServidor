@@ -1,6 +1,6 @@
 package classes.data;
 
-import util.PrintWithColor;
+import classes.util.PrintWithColor;
 
 import java.io.File;
 import java.sql.Connection;
@@ -23,7 +23,7 @@ public class DbConnection {
             return conn;
 
         } catch (SQLException e) {
-            PrintWithColor.print("Usuario o password incorrectos !!!\n", "red");
+            PrintWithColor.printError("Usuario o password incorrectos !!!\n");
             return null;
         }
     }
@@ -36,7 +36,7 @@ public class DbConnection {
             conn = DriverManager.getConnection(url);
             return conn;
         } catch (SQLException e) {
-            System.out.println("Error al conectar a SqLite");
+            PrintWithColor.printError("Error al conectar a SqLite");
             throw new RuntimeException(e);
         }
     }

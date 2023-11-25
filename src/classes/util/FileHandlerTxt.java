@@ -1,4 +1,4 @@
-package util;
+package classes.util;
 
 import classes.Bill;
 import classes.Client;
@@ -65,16 +65,16 @@ public class FileHandlerTxt {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath))) {
             writer.write(txtContent);
 
-            PrintWithColor.print("\nNombre del archivo de la exportación: " + fileName, "green");
-            PrintWithColor.print("Se ha creado el archivo "+ fileName+"[." + extension + "]", "green");
-            PrintWithColor.print("Se han exportado un total de " + Client.clientsList.size() + " clientes y " + Bill.billsList.size() + " facturas", "green");
+            PrintWithColor.printSucces("\nNombre del archivo de la exportación: " + fileName);
+            PrintWithColor.printSucces("Se ha creado el archivo "+ fileName+"[." + extension + "]");
+            PrintWithColor.printSucces("Se han exportado un total de " + Client.clientsList.size() + " clientes y " + Bill.billsList.size() + " facturas");
 
             double totalFacturas = 0d;
             DecimalFormat df = new DecimalFormat("0.00");
             for (Bill bill : Bill.billsList) {
                 totalFacturas += bill.getPrice();
             }
-            PrintWithColor.print("El coste total de las facturas asciende a " + df.format(totalFacturas) + "\n", "green");
+            PrintWithColor.printSucces("El coste total de las facturas asciende a " + df.format(totalFacturas) + "\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

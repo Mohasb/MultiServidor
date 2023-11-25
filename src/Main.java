@@ -2,16 +2,16 @@ import classes.Client;
 import classes.data.DbOperations;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import util.FileHandler;
-import util.PrintWithColor;
-import util.UpdateClient;
+import classes.util.FileHandler;
+import classes.util.PrintWithColor;
+import classes.util.UpdateClient;
 
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        PrintWithColor.print("Bienvenido al multiservidor de datos\n", "blue");
+        PrintWithColor.printMessage("Bienvenido al multiservidor de datos");
         menu();
     }
 
@@ -23,13 +23,13 @@ public class Main {
 
         System.out.print("""
                 ¿Que operación quiere realizar?
-                1. Importar datos(archivo.[txt|xml] a sqlite)
-                2. Exportar datos(sqlite a archivo.[txt|xml])
-                3. Realizar backup de la base de datos(sqlite a MariaDb)
-                4. Exportación hacia MongoDB(Sqlite a JSON)
+                1. Importar datos (archivo.[txt|xml] a sqlite)
+                2. Exportar datos (sqlite a archivo.[txt|xml])
+                3. Realizar backup de la base de datos (sqlite a MariaDb)
+                4. Exportación hacia MongoDB (sqlite a JSON)
                 5. Salir
                 """);
-        option = scanner.nextLine();
+        option = scanner.nextLine().trim();
 
         switch (option) {
             case "1" -> subMenu("Importar");
@@ -60,7 +60,7 @@ public class Main {
                      archivo XML
                     3. Volver
                     """);
-            option = scanner.next();
+            option = scanner.next().trim();
 
 
             if (operation.equals("Importar")) {
@@ -93,7 +93,7 @@ public class Main {
             String JSONObject = gson.toJson(Client.clientsList);
             FileHandler.exportFile(JSONObject, "json");
         }else {
-            System.out.println("No hay clientes en la base de datos de sqlite");
+            PrintWithColor.printError("No hay clientes en la base de datos gestion de SqLite");
         }
     }
 }

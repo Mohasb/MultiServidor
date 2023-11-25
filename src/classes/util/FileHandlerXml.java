@@ -1,4 +1,4 @@
-package util;
+package classes.util;
 
 import classes.Bill;
 import classes.Client;
@@ -75,7 +75,7 @@ public class FileHandlerXml {
             Element apellido = document.createElement("apellido");
             apellido.setTextContent(cliente.getName());
 
-            Element fechaNacimiento = document.createElement("fecha_nacimineto");
+            Element fechaNacimiento = document.createElement("fechaNacimiento");
             fechaNacimiento.setTextContent(cliente.getFechaNac());
 
 
@@ -99,7 +99,6 @@ public class FileHandlerXml {
 
                 Element fechaFactura = document.createElement("fechaFactura");
                 fechaFactura.setTextContent(fa.getDate());
-                System.out.println(fechaFactura.getTextContent());
 
                 Element dni_cliente = document.createElement("dniCliente");
                 dni_cliente.setTextContent(cliente.getDni());

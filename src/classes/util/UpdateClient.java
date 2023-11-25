@@ -1,4 +1,4 @@
-package util;
+package classes.util;
 
 import classes.Bill;
 import classes.Client;

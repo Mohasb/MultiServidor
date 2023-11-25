@@ -1,4 +1,4 @@
-package util;
+package classes.util;
 
 
 
@@ -31,4 +31,16 @@ public class PrintWithColor {
 		System.out.println(color + bold + message + reset);
 	}
 
+	public static void printMessage(String message) {
+		System.out.println(blue + bold + message + reset);
+	}
+	public static void printError(String message) {
+		System.out.println(red + bold + message + reset);
+	}
+	public static void printSucces(String message) {
+		System.out.println(green + bold + message + reset);
+	}
+	public static void printWarning(String message) {
+		System.out.println(yellow + bold + message + reset);
+	}
 }

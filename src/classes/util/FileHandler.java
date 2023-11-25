@@ -1,4 +1,4 @@
-package util;
+package classes.util;
 
 import classes.Bill;
 import classes.Client;
@@ -20,7 +20,7 @@ public class FileHandler {
             readFile(archivo, extension);
             saveToSqLite(Client.clientsList, Bill.billsList);
         } else {
-            System.out.println("Error no se ha seleccionado ningún archivo");
+            PrintWithColor.printError("Error no se ha seleccionado ningún archivo");
         }
 
     }
@@ -40,7 +40,7 @@ public class FileHandler {
         int clientesInsertados = DbOperations.saveClientsToDb(clientes, DbConnection.sqLiteConnection(), "sqlite");
         // Save bills to sqlite database
         int facturasInsertadas = DbOperations.saveBillsToDb(bills, DbConnection.sqLiteConnection());
-        PrintWithColor.print("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n\n", "green");
+        PrintWithColor.printSucces("\nSe han insertado en la base de datos " + clientesInsertados + " clientes y " + facturasInsertadas + " facturas\n\n");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,13 @@ public class FileHandler {
         UpdateClient.updateBillsArrayFromSqLite();
         UpdateClient.mapClientsAndBills();
 
-        generateFileFromDataClients(extension);
+        if (Client.clientsList.size() > 0) {
+            generateFileFromDataClients(extension);
+        }else {
+            PrintWithColor.printError("No hay clientes en la base de datos gestion de SqLite");
+        }
+
+
 
 
     }
@@ -75,7 +81,7 @@ public class FileHandler {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos ." + extension, extension);
         chooser.setFileFilter(filter);
         chooser.setCurrentDirectory(new File("src/assets/ejemplos"));
-        System.out.println("Selecciona un archivo ." + extension + " del diálogo");
+        PrintWithColor.printMessage("Selecciona un archivo ." + extension + " del diálogo");
         int returnVal = chooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
 
@@ -90,7 +96,7 @@ public class FileHandler {
                     if (extension.equals(extensionSelected)) {
                         return chooser.getSelectedFile();
                     }else {
-                        PrintWithColor.print("Error: el archivo seleccionado debia ser un ." + extension + " y es un archivo con extensión: \n" + extensionSelected, "red");
+                        PrintWithColor.printError("Error: el archivo seleccionado debia ser un ." + extension + " y es un archivo con extensión: \n" + extensionSelected);
                     }
                 }
         }
@@ -120,13 +126,13 @@ public class FileHandler {
         Scanner sc = new Scanner(System.in);
 
         do {
-            System.out.println("¿Que nombre quieres para el archivo?");
+            PrintWithColor.printMessage("¿Que nombre quieres para el archivo?");
             fileName = sc.nextLine();
         } while (fileName.isEmpty());
 
 
         chooser.setSelectedFile(new File(fileName));
-        System.out.println("Selecciona una localización para guardar el archivo ." + extension + " con el  diálogo");
+        PrintWithColor.printMessage("Selecciona una localización para guardar el archivo ." + extension + " con el  diálogo");
 
         int seleccion = chooser.showSaveDialog(null);
 
