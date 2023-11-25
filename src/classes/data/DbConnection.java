@@ -40,15 +40,4 @@ public class DbConnection {
             throw new RuntimeException(e);
         }
     }
-
-    // Cierra la conexión
-    public static void cerrarConexion() {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }

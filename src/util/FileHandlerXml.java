@@ -75,8 +75,9 @@ public class FileHandlerXml {
             Element apellido = document.createElement("apellido");
             apellido.setTextContent(cliente.getName());
 
-            Element fechaNacimiento = document.createElement("apellido");
-            fechaNacimiento.setTextContent(cliente.getFechaNac().toString());
+            Element fechaNacimiento = document.createElement("fecha_nacimineto");
+            fechaNacimiento.setTextContent(cliente.getFechaNac());
+
 
             clienteElement.appendChild(dni);
             clienteElement.appendChild(nombre);
@@ -98,6 +99,7 @@ public class FileHandlerXml {
 
                 Element fechaFactura = document.createElement("fechaFactura");
                 fechaFactura.setTextContent(fa.getDate());
+                System.out.println(fechaFactura.getTextContent());
 
                 Element dni_cliente = document.createElement("dniCliente");
                 dni_cliente.setTextContent(cliente.getDni());
@@ -125,7 +127,7 @@ public class FileHandlerXml {
             Source source = new DOMSource(docXml);
             Result result = new StreamResult(new File(outputFilePath.toURI()));
             transformer.transform(source, result);
-            System.out.println("Documento XML creado correctamente a partir de los datos de la bbdd Gestión en SqLite" + "\n");
+            System.out.println("Documento XML creado correctamente a partir de los datos de la base de datos gestión en SqLite" + "\n");
         } catch (TransformerException e) {
             throw new RuntimeException(e);
         }

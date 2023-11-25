@@ -5,18 +5,12 @@ import org.w3c.dom.NodeList;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
+
 
 public class Bill {
 
     public static ArrayList<Bill> billsList = new ArrayList<>();
-    static SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
     private String concept;
     private Double price;
     private String date;

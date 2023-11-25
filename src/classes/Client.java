@@ -4,14 +4,11 @@ import org.w3c.dom.Element;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Client {
 
     public static ArrayList<Client> clientsList = new ArrayList<>();
-    static DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private String dni;
     private String name;
     private String lastname;

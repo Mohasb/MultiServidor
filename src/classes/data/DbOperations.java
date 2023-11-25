@@ -22,7 +22,7 @@ public class DbOperations {
         StringBuilder values = new StringBuilder();
         //Copia del arraylist local para iterar
         ArrayList<Client> clientesFromFileCopy = new ArrayList<>(clientesList);
-        //Borro el arraylist local lo relleno con lo que haya en la bbdd
+        //Borro el arraylist local lo relleno con lo que haya en la base datos
 
         if (bdType.equals("sqlite")) {
             UpdateClient.updateClientArrayFromSqLite();
@@ -36,7 +36,7 @@ public class DbOperations {
             String nombre = client.getName();
             String apellido = client.getLastname();
             String fechaNac = client.getFechaNac();
-            //Aqui se comprueba si existe el cliente en la basse de datos
+            // Aquí se comprueba si existe el cliente en la base de datos
             if (!Client.clientsList.contains(client)) {
                 String clientValues = "('" + dni + "','" + nombre + "','" + apellido + "','" + fechaNac + "'),";
                 values.append(clientValues);
@@ -131,7 +131,7 @@ public class DbOperations {
                     throw new RuntimeException(e);
                 }
 
-                //Este codigo ejecuta el sql en formato para sqlite o en líneas para MariaDb
+                //Este código ejecuta el sql en formato para sqlite o en líneas para MariaDb
                 if (sqlFileName.equals("gestionSqLiteTables")) {
                     stmt.execute(String.valueOf(sql));
                 }else {
