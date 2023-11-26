@@ -26,25 +26,11 @@ public class Client {
         this.fechaNac = fechaNac;
     }
 
-    public List<Bill> getBills() {
-        return bills;
-    }
-
-    public void setBills(List<Bill> bills) {
-        this.bills = bills;
-    }
-
     public static void addClientsTxtToList(String[] datos) {
         String dni = datos[0];
         String name = datos[1];
         String lastName = datos[2];
         String fechaNac = datos[3];
-
-
-
-
-
-
         Client c = new Client(dni, name, lastName, fechaNac);
         Client.clientsList.add(c);
     }
@@ -71,6 +57,13 @@ public class Client {
         }
     }
 
+    public List<Bill> getBills() {
+        return bills;
+    }
+
+    public void setBills(List<Bill> bills) {
+        this.bills = bills;
+    }
 
     public String getDni() {
         return dni;

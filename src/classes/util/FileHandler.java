@@ -7,6 +7,7 @@ import classes.data.DbOperations;
 import org.w3c.dom.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
@@ -33,7 +34,6 @@ public class FileHandler {
     }
 
     private static void saveToSqLite(ArrayList<Client> clientes, ArrayList<Bill> bills) {
-
         // Create tables if not exists in db
         DbOperations.createTablesIfNotExist(DbConnection.sqLiteConnection(), "gestionSqLiteTables");
         // Save client to sqlite database
@@ -56,17 +56,12 @@ public class FileHandler {
         }else {
             PrintWithColor.printError("No hay clientes en la base de datos gestion de SqLite");
         }
-
-
-
-
     }
 
     private static void generateFileFromDataClients(String extension) {
 
         String txtContent = FileHandlerTxt.generateTxt();
         Document docXml = FileHandlerXml.generateXml();
-
 
         switch (extension) {
             case "txt" -> exportFile(txtContent, "txt");
@@ -77,16 +72,19 @@ public class FileHandler {
 
     // This function prompt the dialog to choose the file to import
     public static File importFile(String extension) {
-
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos ." + extension, extension);
         chooser.setFileFilter(filter);
         chooser.setCurrentDirectory(new File("src/assets/ejemplos"));
         PrintWithColor.printMessage("Selecciona un archivo ." + extension + " del diálogo");
-        int returnVal = chooser.showOpenDialog(null);
+
+        Dialog dialog = new JDialog();
+        dialog.setAlwaysOnTop(true); // Asegura que el diálogo esté siempre encima
+        dialog.setModal(true); // Lo convierte en modal, bloqueando la interacción con otras ventanas
+
+        int returnVal = chooser.showOpenDialog(dialog);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
 
             File selectedFile = chooser.getSelectedFile();
-
 
                 String extensionSelected;
                 String fileName = selectedFile.getName();
@@ -134,7 +132,12 @@ public class FileHandler {
         chooser.setSelectedFile(new File(fileName));
         PrintWithColor.printMessage("Selecciona una localización para guardar el archivo ." + extension + " con el  diálogo");
 
-        int seleccion = chooser.showSaveDialog(null);
+
+        Dialog dialog = new JDialog();
+        dialog.setAlwaysOnTop(true); // Asegura que el diálogo esté siempre encima
+        dialog.setModal(true); // Lo convierte en modal, bloqueando la interacción con otras ventanas
+
+        int seleccion = chooser.showSaveDialog(dialog);
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File selectedFile = chooser.getSelectedFile();

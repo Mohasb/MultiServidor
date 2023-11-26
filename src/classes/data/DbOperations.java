@@ -86,7 +86,6 @@ public class DbOperations {
                 }
             }
 
-
             if (dniExists) {
                 String billValues = "('" + concepto + "'," + importe + ",'" + fechaFactura + "','" + dni_cliente + "'),";
                 values.append(billValues);
@@ -170,8 +169,6 @@ public class DbOperations {
     }
 
     public static void insertDataToMariaDb() {
-
-
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el usuario de MariaDb");
         String user = sc.nextLine();
@@ -199,7 +196,5 @@ public class DbOperations {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }

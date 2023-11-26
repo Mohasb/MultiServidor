@@ -23,13 +23,11 @@ public class MongoDbHandler {
             Gson gson = gsonBuilder.setPrettyPrinting().create();
             String JSONObject = gson.toJson(Client.clientsList);
             FileHandler.exportFile(JSONObject, "json");
-            exportToMongoDb(JSONObject);
         }else {
             PrintWithColor.printError("No hay clientes en la base de datos gestion de SqLite");
         }
     }
 
-    //TODO:Cuando haya tiempo
     public static void exportToMongoDb(String JsonObject) {
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString("mongodb://localhost:27017/"))
@@ -41,7 +39,7 @@ public class MongoDbHandler {
             /*Document bsonDocument  = Document.parse(JsonObject);
             collection.insertOne(bsonDocument);*/
 
-            System.out.println("JSON document inserted successfully!");
+            PrintWithColor.printSucces("Documento .json creado correctamente");
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }

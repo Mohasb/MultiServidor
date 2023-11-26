@@ -17,22 +17,12 @@ public class UpdateClient {
         ResultSet clients = DbOperations.getDataFromDb(DbConnection.sqLiteConnection(),"clientes");
         Client.addClientsToList(clients);
     }
-
      public static void updateBillsArrayFromSqLite() {
         Bill.billsList.clear();
         // Get Result of Bills and send to Bill to save to arraylist<Bills>
         ResultSet bills = DbOperations.getDataFromDb(DbConnection.sqLiteConnection(),"facturas");
         Bill.addBillsFromSqLiteToList(bills);
     }
-
-
-    public static void updateFromMariaDb() {
-        Client.clientsList.clear();
-        // Get Result of client and send to client to save to arraylist<Clients>
-        ResultSet clients = DbOperations.getDataFromDb(Objects.requireNonNull(DbConnection.mySqlConnection()),"clientes");
-        Client.addClientsToList(clients);
-    }
-
 
     public static void mapClientsAndBills() {
         //Map que contendrá la lista de clientes con sus respectivas facturas
@@ -52,6 +42,13 @@ public class UpdateClient {
             // Assign the list of bills to the client
             client.setBills(associatedBills);
         }
+    }
+
+    public static void updateFromMariaDb() {
+        Client.clientsList.clear();
+        // Get Result of client and send to client to save to arraylist<Clients>
+        ResultSet clients = DbOperations.getDataFromDb(Objects.requireNonNull(DbConnection.mySqlConnection()),"clientes");
+        Client.addClientsToList(clients);
     }
 
 }

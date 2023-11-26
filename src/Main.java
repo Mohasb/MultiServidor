@@ -1,12 +1,7 @@
-import classes.Client;
 import classes.data.DbOperations;
 import classes.util.MongoDbHandler;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import classes.util.FileHandler;
 import classes.util.PrintWithColor;
-import classes.util.UpdateClient;
-
 
 import java.util.Scanner;
 
@@ -46,7 +41,6 @@ public class Main {
         // Al acabar una operación sale el menu de nuevo
         menu();
     }
-
 
     //Submenu of option 1 & 2
     public static void subMenu(String operation) {
